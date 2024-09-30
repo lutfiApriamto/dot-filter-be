@@ -5,11 +5,12 @@ import { User } from '../models/User.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer'
+dotenv.config();
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-dotenv.config();
+
 
 const router = express.Router();
 
