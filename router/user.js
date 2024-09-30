@@ -70,7 +70,7 @@ router.post('/login', async (req, res) => {
         
 
         var mailOptions = {
-            from: 'lutfiapriamto12@gmail.com',
+            from: process.env.EMAIL_USER,
             to: "afriantolutfi@gmail.com",
             subject: 'notifikasi',
             text: `${username} sedang login`

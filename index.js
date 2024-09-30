@@ -13,8 +13,9 @@ const app = express();
 app.use(express.json());
 app.use(cors({
     origin: ["https://filter-fe-two.vercel.app", "https://crm.woo-wa.com"], // Izinkan frontend dan CRM
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization", "Origin", "X-Requested-With"],
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true
 }));
 
 app.use(cookieParser());
