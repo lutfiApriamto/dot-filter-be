@@ -4,7 +4,8 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import { UserRouter } from '../../router/user.js';
+import { UserRouter } from './router/user.js';
+
 dotenv.config();
 
 const app = express();
