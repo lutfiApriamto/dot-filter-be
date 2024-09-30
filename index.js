@@ -19,7 +19,6 @@ app.use(cors({
 
 app.use(cookieParser());
 app.use('/user', UserRouter);
-app.use('/message', messageRouter);
 
 mongoose.connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
