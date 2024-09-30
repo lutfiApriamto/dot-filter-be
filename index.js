@@ -10,7 +10,7 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(cors({
-    origin: ["http://localhost:5173", "https://crm.woo-wa.com"], // Izinkan frontend dan CRM
+    origin: ["https://filter-fe-two.vercel.app", "https://crm.woo-wa.com"], // Izinkan frontend dan CRM
     credentials: true,
     // methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Izinkan metode HTTP ini
     allowedHeaders: ["Content-Type", "Authorization", "Origin", "X-Requested-With"],
