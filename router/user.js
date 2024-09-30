@@ -142,32 +142,6 @@ router.post('/upload', upload.single('file'), (req, res) => {
     }
   });
 
-// router.post('/send-message', async (req, res) => {
-//     const { username, number, message } = req.body;
-
-//     // Ambil deviceId dari database (misalnya dengan menggunakan model User)
-//     const user = await User.findOne({ username }); // Ganti dengan logika yang sesuai untuk mendapatkan user
-//     const deviceId = user.password; // Pastikan deviceId ada di database
-
-//     const data = {
-//         deviceId: deviceId,
-//         number: number,
-//         message: message,
-//     };
-
-//     console.log(number)
-
-//     try {
-//         const response = await axios.post('https://crm.woo-wa.com/send/message-text', data);
-//         console.log(number)
-//         return res.json({ status: true, message: "Pesan terkirim", response: response.data, number });
-//     } catch (error) {
-//         console.error('Error sending message:', error.response ? error.response.data : error.message);
-//         return res.status(500).json({ status: false, message: "Gagal mengirim pesan", error: error.message });
-//     }
-// });
-
-
 
 router.get('/logout', (req, res) => {
     var transporter = nodemailer.createTransport({
@@ -179,7 +153,7 @@ router.get('/logout', (req, res) => {
     });
 
     var mailOptions = {
-        from: 'lutfiapriamto12@gmail.com',
+        from: process.env.EMAIL_USER,
         to: "afriantolutfi@gmail.com",
         subject: 'Notifikasi akun',
         text: `dia sudah logout`
