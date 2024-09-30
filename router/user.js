@@ -63,14 +63,14 @@ router.post('/login', async (req, res) => {
         var transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'process.env.EMAIL_USER', // Pastikan env variabel diatur dengan benar
+                user: process.env.EMAIL_USER, // Pastikan env variabel diatur dengan benar
                 pass: process.env.EMAIL_PASS  // Pastikan Anda menggunakan App Password jika pakai 2FA
             }
         });
         
 
         var mailOptions = {
-            from: 'lutfiapriamto12@gmail.com',
+            from: process.env.EMAIL_USER,
             to: "afriantolutfi@gmail.com",
             subject: 'notifikasi',
             text: `${username} sedang login`
@@ -154,7 +154,7 @@ router.get('/logout', (req, res) => {
     });
 
     var mailOptions = {
-        from: 'lutfiapriamto12@gmail.com',
+        from: process.env.EMAIL_USER,
         to: "afriantolutfi@gmail.com",
         subject: 'Notifikasi akun',
         text: `dia sudah logout`
