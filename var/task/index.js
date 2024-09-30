@@ -4,8 +4,8 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import { UserRouter } from './router/user.js';
-import { messageRouter } from './router/messageRoutes.js';
+import { UserRouter } from '../../router/user.js';
+import { messageRouter } from '../../router/messageRoutes.js';
 dotenv.config();
 
 const app = express();
@@ -32,5 +32,3 @@ mongoose.connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: t
         console.error("Connection error", err);
     });
 
-// Ekspor app untuk Vercel
-export default app;
