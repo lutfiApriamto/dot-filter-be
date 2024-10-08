@@ -98,22 +98,22 @@ router.post('/upload', upload.single('file'), (req, res) => {
     try {
       const file = req.file;
   
-      // Read the CSV file from buffer
+      // Baca file CSV dari buffer
       const data = file.buffer.toString('utf8');
   
-      // Parse CSV using papaparse
+      // Parse CSV menggunakan papaparse
       const parsedData = Papa.parse(data, { header: true });
   
-      // Track numbers that have been seen
-      const uniqueNumbers = new Set();
+      // Track kombinasi nomor dan nama yang sudah dilihat
+      const uniqueEntries = new Map();
   
-      // Filter, remove duplicates, and rename phone_number column to number
+      // Filter, hilangkan duplikat, dan ubah nama kolom phone_number ke number
       const filteredData = parsedData.data
         .filter(row => row.name && row.phone_number && row.phone_number.startsWith('08'))
         .map(row => {
-          const cleanedName = row.name.replace(/"+/g, '');  // Clean double quotes
-          const finalName = `"${cleanedName}"`;  // Add double quotes around the name
-          const cleanedNumber = row.phone_number.replace(/-/g, '').replace(/^0/, '+62');  // Format number
+          const cleanedName = row.name.replace(/"+/g, '');  // Bersihkan tanda kutip ganda
+          const finalName = `"${cleanedName}"`;  // Tambahkan tanda kutip ganda di sekitar nama
+          const cleanedNumber = row.phone_number.replace(/-/g, '').replace(/^0/, '+62');  // Format nomor telepon
   
           return {
             name: finalName,
@@ -121,20 +121,29 @@ router.post('/upload', upload.single('file'), (req, res) => {
           };
         })
         .filter(row => {
-          if (!uniqueNumbers.has(row.number)) {
-            uniqueNumbers.add(row.number);  // Add number to set if not already present
+          const entryKey = `${row.number}-${row.name}`; // Kombinasi nomor dan nama sebagai kunci
+  
+          // Cek apakah kombinasi nomor dan nama sudah ada
+          if (!uniqueEntries.has(row.number)) {
+            uniqueEntries.set(row.number, row.name);  // Simpan kombinasi nomor dan nama
             return true;
+          } else {
+            // Jika nomor sudah ada, pastikan nama berbeda
+            if (uniqueEntries.get(row.number) !== row.name) {
+              return true;  // Simpan jika nama berbeda meskipun nomor sama
+            }
           }
+  
           return false;
         });
   
-      // Manually construct CSV
+      // Manual membangun CSV
       let csvContent = 'name,number\n';
       filteredData.forEach(row => {
         csvContent += `${row.name},${row.number}\n`;
       });
   
-      // Send filtered CSV file to client
+      // Kirim file CSV yang sudah difilter ke client
       res.attachment('filtered_data.csv');
       res.status(200).send(csvContent);
   
@@ -142,6 +151,7 @@ router.post('/upload', upload.single('file'), (req, res) => {
       res.status(500).send('Error processing file');
     }
   });
+  
 
 
 
