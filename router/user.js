@@ -109,11 +109,11 @@ router.post('/upload', upload.single('file'), (req, res) => {
   
       // Filter, hilangkan duplikat, dan ubah nama kolom phone_number ke number
       const filteredData = parsedData.data
-        .filter(row => row.name && row.phone_number && row.phone_number.startsWith('08'))
+        .filter(row => row.name && row.phone_number && row.phone_number.startsWith('+628'))
         .map(row => {
           const cleanedName = row.name.replace(/"+/g, '');  // Bersihkan tanda kutip ganda
           const finalName = `"${cleanedName}"`;  // Tambahkan tanda kutip ganda di sekitar nama
-          const cleanedNumber = row.phone_number.replace(/-/g, '').replace(/^0/, '+62');  // Format nomor telepon
+          const cleanedNumber = row.phone_number.replace(/-/g, '').replace(/\+628/, '+628');  // Format nomor telepon
   
           return {
             name: finalName,
@@ -128,10 +128,13 @@ router.post('/upload', upload.single('file'), (req, res) => {
             uniqueEntries.set(row.number, row.name);  // Simpan kombinasi nomor dan nama
             return true;
           } else {
-            // Jika nomor sudah ada, pastikan nama berbeda
-            if (uniqueEntries.get(row.number) !== row.name) {
+            // Jika name sudah ada, pastikan nama berbeda
+            if (uniqueEntries.get(row.name) !== row.number) {
               return true;  // Simpan jika nama berbeda meskipun nomor sama
             }
+            else if (uniqueEntries.get(row.number) !== row.name) {
+                return true;  // Simpan jika nama berbeda meskipun nomor sama
+              }
           }
   
           return false;
