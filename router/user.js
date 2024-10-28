@@ -109,11 +109,11 @@ router.post('/upload', upload.single('file'), (req, res) => {
   
       // Filter, hilangkan duplikat, dan ubah nama kolom phone_number ke number
       const filteredData = parsedData.data
-        .filter(row => row.name && row.phone_number && row.phone_number.startsWith('+628'))
+        .filter(row => row.name && row.number && row.number.startsWith('+628'))
         .map(row => {
           const cleanedName = row.name.replace(/"+/g, '');  // Bersihkan tanda kutip ganda
           const finalName = `"${cleanedName}"`;  // Tambahkan tanda kutip ganda di sekitar nama
-          const cleanedNumber = row.phone_number.replace(/-/g, '').replace(/\+628/, '+628');  // Format nomor telepon
+          const cleanedNumber = row.number.replace(/-/g, '').replace(/\+628/, '+628');  // Format nomor telepon
   
           return {
             name: finalName,
